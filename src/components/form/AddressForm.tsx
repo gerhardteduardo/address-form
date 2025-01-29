@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '../@/components/ui/button';
 import { Input } from '../@/components/ui/input';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../@/components/ui/form';
 import AlertSuccess from './AlertSuccess.tsx';
 import AlertError from './AlertError.tsx';
 
@@ -41,7 +41,7 @@ function AddressForm()
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: unknown) => {
     try {
       console.log(values);
       setShowSuccessMessage(true);
@@ -54,7 +54,8 @@ function AddressForm()
     }
   };
 
-  function setFormValue(data) 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function setFormValue(data: any) 
   {
     const { cep, uf, localidade, logradouro, bairro } = data;
     form.setValue("zipcode", cep);
@@ -84,101 +85,87 @@ function AddressForm()
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="xl:grid xl:grid-cols-4 gap-5">
-            <div className="xl:w-64 text-left">
-              <FormField control={form.control} name="zipcode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>CEP</FormLabel>
-                    <FormControl>
-                      <Input className="hover:bg-green-50" placeholder="Digite seu CEP" {...field} onChange={(event) => getCEPdata(event.target.value)} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="text-left xl:col-span-2">
-              <FormField control={form.control} name="street"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Rua</FormLabel>
-                    <FormControl>
-                      <Input className="hover:bg-green-50" placeholder="Digite a rua" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="xl:w-64 text-left">
-              <FormField control={form.control} name="complement"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Complemento</FormLabel>
-                  <FormControl>
-                    <Input className="hover:bg-green-50" placeholder="Digite o complemento" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-              />
-            </div>
-            <div className="xl:w-64 text-left">
-              <FormField control={form.control} name="housenumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Número</FormLabel>
-                    <FormControl>
-                      <Input className="hover:bg-green-50" placeholder="Digite o número" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="xl:w-64 text-left">
-              <FormField control={form.control} name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Cidade</FormLabel>
-                    <FormControl>
-                      <Input className="hover:bg-green-50" placeholder="Digite a cidade" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem> 
-                )}
-              />
-            </div>
-            <div className="xl:w-64 text-left">
-              <FormField control={form.control} name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Estado</FormLabel>
-                    <FormControl>
-                      <Input className="hover:bg-green-50" placeholder="UF" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="xl:w-64 text-left">
-              <FormField control={form.control} name="neighborhood"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Bairro</FormLabel>
-                    <FormControl>
-                      <Input className="hover:bg-green-50" placeholder="Digite o bairro" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+      <form onSubmit={form.handleSubmit(onSubmit)} >
+        <div className="grid grid-cols-10 gap-4 text-left">
+          <FormField control={form.control} name="zipcode"
+            render={({ field }) => (
+              <FormItem className="lg:col-span-2 col-span-10">
+                <FormLabel>CEP *</FormLabel>
+                <FormControl>
+                  <Input className="hover:bg-green-50" placeholder="Digite seu CEP" {...field} onChange={(event) => getCEPdata(event.target.value)} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField control={form.control} name="street"
+            render={({ field }) => (
+              <FormItem className="lg:col-span-6 col-span-10">
+                <FormLabel>Rua *</FormLabel>
+                <FormControl>
+                  <Input className="hover:bg-green-50" placeholder="Digite a rua" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField control={form.control} name="housenumber"
+            render={({ field }) => (
+              <FormItem className="lg:col-span-2 col-span-10">
+                <FormLabel>Número *</FormLabel>
+                <FormControl>
+                  <Input className="hover:bg-green-50" placeholder="Digite o número" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField control={form.control} name="neighborhood"
+            render={({ field }) => (
+              <FormItem className="lg:col-span-3 col-span-10">
+                <FormLabel>Bairro *</FormLabel>
+                <FormControl>
+                  <Input className="hover:bg-green-50" placeholder="Digite o bairro" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField control={form.control} name="city"
+            render={({ field }) => (
+              <FormItem className="lg:col-span-3 col-span-10">
+                <FormLabel>Cidade *</FormLabel>
+                <FormControl>
+                  <Input className="hover:bg-green-50" placeholder="Digite a cidade" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem> 
+            )}
+          />
+          <FormField control={form.control} name="state"
+            render={({ field }) => (
+              <FormItem className="lg:col-span-2 col-span-10">
+                <FormLabel>Estado *</FormLabel>
+                <FormControl>
+                  <Input className="hover:bg-green-50" placeholder="UF" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField control={form.control} name="complement"
+          render={({ field }) => (
+            <FormItem className="lg:col-span-2 col-span-10">
+              <FormLabel>Complemento</FormLabel>
+              <FormControl>
+                <Input className="hover:bg-green-50" placeholder="Digite o complemento" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+          />
+          <Button className="lg:col-start-9 lg:col-span-2 col-span-10" type="submit">Cadastrar</Button>
           </div>
-          <Button className="w-full" type="submit">CADASTRAR</Button>
       </form>
       {showSuccessMessage && (
         <AlertSuccess/>
