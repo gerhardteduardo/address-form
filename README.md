@@ -39,6 +39,8 @@ Caso tenha alguma sugestão ou feedback sobre o projeto, sinta-se à vontade par
 React
 TypeScript
 Tailwind CSS
+Vite
+Git
 
 
 ## 🌟 Agradecimento
